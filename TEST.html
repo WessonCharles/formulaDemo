@@ -1,0 +1,270 @@
+<html>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+	<link rel="stylesheet" href="codemirror/addon/hint/show-hint.css">
+	<script src="codemirror/lib/codemirror.js"></script>
+	<script src="codemirror/addon/hint/show-hint.js"></script>
+	<script src="codemirror/addon/edit/matchbrackets.js"></script>
+	<script src="fomula-hint.js"></script>
+	<script src="codemirror/addon/selection/active-line.js"></script> 
+	<link rel="stylesheet" href="style1.css">
+	<script src="jquery.min.js"></script>
+	<style>
+		.formula-outer{
+			color:#666;
+		}
+		.editor-outer{
+			margin-left: 200px;
+		    border-left: 1px solid #ddd;
+		    height: 100%;
+		    position: relative;
+		}
+		.x-formula-editor{
+			height:50%;
+		}
+		.x-formula-editor .CodeMirror{
+			border-left:none;
+		}
+		.x-layout-table-item{
+			width:100%;
+			height: 50%;
+		}
+		.formula-category .children{
+			height:0px;
+			overflow: hidden;
+		}
+		.formula-category .children li{
+			padding-left:40px;
+			height:30px;
+			line-height:30px;
+			cursor: pointer;
+		}
+		.formula-category .children li:hover{
+			background-color: rgba(36, 138, 249, 0.1);
+			color:rgb(36, 138, 249);
+		}
+		.formula-category.expand .children{
+			height:auto!important;
+			overflow: auto;
+		}
+		.formula-category .icon-angleright:before{
+		    content: "▶";
+		    margin: 0px 5px;
+		    color: #6E85A1;
+		}
+		.formula-category.expand .icon-angleright:before{
+			content:"▼";
+		}
+		.formula-menu {
+		    position: relative;
+		    float: left;
+		    border: 1px solid #e0e0e0;
+		    min-width: 150px;
+		    width:35%;
+		    height:  calc(100% - 120px);
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		.formula-menu .formula-list {
+		    position: absolute;
+		    top: 37px;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		    overflow: auto;
+		}
+		.formula-menu .formula-list .formula-category .title {
+		    cursor: pointer;
+		    -webkit-user-select: none;
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    -o-user-select: none;
+		    user-select: none;
+		    height: 24px;
+		    line-height: 24px;
+		}
+		.formula-intro {
+		    border: 1px solid #e0e0e0;
+		    margin-left: 36%;
+		    height: calc(100% - 120px);
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius: 2px;
+		    border-radius: 2px;
+		}
+		.formula-name{
+			color:#761086;
+		}
+		.fields-list{
+			width:200px;
+			float:left;
+		}
+		.field{
+			position: relative;
+		    height: 30px;
+		    line-height: 30px;
+		}
+		.filed:hover{
+			background-color: #eee;
+		}
+		.menu-item .menu-capsule {
+		    position: absolute;
+		    top: 4px;
+		    right: 8px;
+		    bottom: 4px;
+		    text-align: center;
+		    line-height: 18px;
+		    padding: 0px 8px;
+		    border-radius: 10px;
+		}
+		.menu-capsule.style-blue {
+    color: rgb(36, 138, 249);
+    background: rgba(36, 138, 249, 0.1);
+}
+		.menu-capsule.style-purple {
+    color: rgb(140, 95, 251);
+    background: rgba(140, 95, 251, 0.1);
+}		
+		.menu-capsule.style-green {
+    color: rgb(13, 179, 166);
+    background: rgba(13, 179, 166, 0.1);
+}
+		.menu-capsule.style-yellow {
+    color: rgb(244, 183, 0);
+    background: rgba(244, 183, 0, 0.1);
+}
+	</style>
+	<body>
+		<div class="formula-outer">
+			<div class="fields-list">
+				<ul class="field-list" style="display: block;">
+				    <li class="field" name="_widget_1493093397903"><a class="menu-item with-capsule" title="日期时间"><span>日期时间</span><div class="menu-capsule style-blue">时间戳</div></a>
+				    </li>
+				    <li class="field" name="_widget_1493093397926"><a class="menu-item with-capsule" title="下拉复选框"><span>下拉复选框</span><div class="menu-capsule style-purple">数组</div></a>
+				    </li>
+				    <li class="field" name="_widget_1493093397940"><a class="menu-item with-capsule" title="下拉框"><span>下拉框</span><div class="menu-capsule style-green">文本</div></a>
+				    </li>
+				    <li class="field" name="_widget_1493093397913"><a class="menu-item with-capsule" title="复选框组"><span>复选框组</span><div class="menu-capsule style-purple">数组</div></a>
+				    </li>
+				    <li class="field" name="_widget_1493093397892"><a class="menu-item with-capsule" title="数字"><span>数字</span><div class="menu-capsule style-yellow">数字</div></a>
+				    </li>
+				    <li class="field" name="_widget_1493093397868"><a class="menu-item with-capsule" title="单选按钮组"><span>单选按钮组</span><div class="menu-capsule style-green">文本</div></a>
+				    </li>
+				</ul>
+			</div>
+			<div class="editor-outer">
+				<div class="x-formula-editor">
+					
+				</div>
+				<div class="x-layout-table-item fx_formula_info" widgetname="formulaInfoPane">
+				    <div class="formula-info-label">函数</div>
+				    <div class="formula-info-main">
+				        <div class="formula-menu">
+				            <div class="formula-search">
+				                <input class="search-input" placeholder="搜索函数">
+				            </div>
+				            <ul class="formula-list">
+				                <li class="formula-category">
+				                    <div class="title"><i class="angle-icon icon-angleright"></i>数学函数</div>
+				                    <ul class="children" >
+				                        <li class="formula-item select">ABS</li>
+				                        <li class="formula-item">AVERAGE</li>
+				                        <li class="formula-item">CEILING</li>
+				                        <li class="formula-item">COUNT</li>
+				                        <li class="formula-item">COUNTIF</li>
+				                        <li class="formula-item">FIXED</li>
+				                        <li class="formula-item">FLOOR</li>
+				                        <li class="formula-item">INT</li>
+				                        <li class="formula-item">LARGE</li>
+				                        <li class="formula-item">LOG</li>
+				                        <li class="formula-item">MAX</li>
+				                        <li class="formula-item">MIN</li>
+				                        <li class="formula-item">MOD</li>
+				                        <li class="formula-item">POWER</li>
+				                        <li class="formula-item">PRODUCT</li>
+				                        <li class="formula-item">ROUND</li>
+				                        <li class="formula-item">SQRT</li>
+				                        <li class="formula-item">SUM</li>
+				                        <li class="formula-item">SUMPRODUCT</li>
+				                    </ul>
+				                </li>
+				                <li class="formula-category">
+				                    <div class="title"><i class="angle-icon icon-angleright"></i>文本函数</div>
+				                    <ul class="children" >
+				                        <li class="formula-item">CONCATENATE</li>
+				                        <li class="formula-item">EXACT</li>
+				                        <li class="formula-item">GETUSERNAME</li>
+				                        <li class="formula-item">ISEMPTY</li>
+				                        <li class="formula-item">LEFT</li>
+				                        <li class="formula-item">LEN</li>
+				                        <li class="formula-item">LOWER</li>
+				                        <li class="formula-item">MID</li>
+				                        <li class="formula-item">REPLACE</li>
+				                        <li class="formula-item">REPT</li>
+				                        <li class="formula-item">RIGHT</li>
+				                        <li class="formula-item">SEARCH</li>
+				                        <li class="formula-item">SPLIT</li>
+				                        <li class="formula-item">TEXT</li>
+				                        <li class="formula-item">TRIM</li>
+				                        <li class="formula-item">UPPER</li>
+				                        <li class="formula-item">VALUE</li>
+				                    </ul>
+				                </li>
+				                <li class="formula-category">
+				                    <div class="title"><i class="angle-icon icon-angleright"></i>日期函数</div>
+				                    <ul class="children" >
+				                        <li class="formula-item">DATE</li>
+				                        <li class="formula-item">DATEDELTA</li>
+				                        <li class="formula-item">DAY</li>
+				                        <li class="formula-item">DAYS</li>
+				                        <li class="formula-item">DAYS360</li>
+				                        <li class="formula-item">HOUR</li>
+				                        <li class="formula-item">ISOWEEKNUM</li>
+				                        <li class="formula-item">MINUTE</li>
+				                        <li class="formula-item">MONTH</li>
+				                        <li class="formula-item">NOW</li>
+				                        <li class="formula-item">SECOND</li>
+				                        <li class="formula-item">SYSTIME</li>
+				                        <li class="formula-item">TIME</li>
+				                        <li class="formula-item">TIMESTAMP</li>
+				                        <li class="formula-item">TODAY</li>
+				                        <li class="formula-item">WEEKNUM</li>
+				                        <li class="formula-item">YEAR</li>
+				                    </ul>
+				                </li>
+				                <li class="formula-category">
+				                    <div class="title"><i class="angle-icon icon-angleright"></i>逻辑函数</div>
+				                    <ul class="children" >
+				                        <li class="formula-item">AND</li>
+				                        <li class="formula-item">FALSE</li>
+				                        <li class="formula-item">IF</li>
+				                        <li class="formula-item">NOT</li>
+				                        <li class="formula-item">OR</li>
+				                        <li class="formula-item">TRUE</li>
+				                        <li class="formula-item">XOR</li>
+				                    </ul>
+				                </li>
+				                <li class="formula-category">
+				                    <div class="title"><i class="angle-icon icon-angleright"></i>高级函数</div>
+				                    <ul class="children" >
+				                        <li class="formula-item">MAPX</li>
+				                        <li class="formula-item">RECNO</li>
+				                        <li class="formula-item">UUID</li>
+				                    </ul>
+				                </li>
+				            </ul>
+				        </div>
+				        <div class="formula-intro">
+						    <ul class="intro-wrapper default">
+						        <li>请从左侧面板选择字段名和函数，或输入函数</li>
+						        <li>公式编辑举例：<span class="formula-name">SUM</span>(<span class="formula-field">基本工资</span>,<span class="formula-field">加班工资</span>)</li>
+						    </ul>
+						</div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="formula.js"></script>
+</html>
